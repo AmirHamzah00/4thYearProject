@@ -4,7 +4,7 @@
 // MODULE: altsyncram 
 
 // ============================================================
-// File Name: weights_3.v
+// File Name: weights_7.v
 // Megafunction Name(s):
 // 			altsyncram
 //
@@ -37,7 +37,7 @@
 // synopsys translate_off
 `timescale 1 ps / 1 ps
 // synopsys translate_on
-module weights_3 (
+module weights_7 (
 	address,
 	clock,
 	q);
@@ -84,7 +84,7 @@ module weights_3 (
 		altsyncram_component.address_aclr_a = "NONE",
 		altsyncram_component.clock_enable_input_a = "BYPASS",
 		altsyncram_component.clock_enable_output_a = "BYPASS",
-		altsyncram_component.init_file = "weights_3.mif",
+		altsyncram_component.init_file = "weights_7.mif",
 		altsyncram_component.intended_device_family = "Cyclone IV E",
 		altsyncram_component.lpm_hint = "ENABLE_RUNTIME_MOD=NO",
 		altsyncram_component.lpm_type = "altsyncram",
@@ -119,7 +119,7 @@ endmodule
 // Retrieval info: PRIVATE: JTAG_ENABLED NUMERIC "0"
 // Retrieval info: PRIVATE: JTAG_ID STRING "NONE"
 // Retrieval info: PRIVATE: MAXIMUM_DEPTH NUMERIC "0"
-// Retrieval info: PRIVATE: MIFfilename STRING "weights_3.mif"
+// Retrieval info: PRIVATE: MIFfilename STRING "weights_7.mif"
 // Retrieval info: PRIVATE: NUMWORDS_A NUMERIC "784"
 // Retrieval info: PRIVATE: RAM_BLOCK_TYPE NUMERIC "0"
 // Retrieval info: PRIVATE: RegAddr NUMERIC "1"
@@ -134,7 +134,7 @@ endmodule
 // Retrieval info: CONSTANT: ADDRESS_ACLR_A STRING "NONE"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_INPUT_A STRING "BYPASS"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_OUTPUT_A STRING "BYPASS"
-// Retrieval info: CONSTANT: INIT_FILE STRING "weights_3.mif"
+// Retrieval info: CONSTANT: INIT_FILE STRING "weights_7.mif"
 // Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone IV E"
 // Retrieval info: CONSTANT: LPM_HINT STRING "ENABLE_RUNTIME_MOD=NO"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "altsyncram"
@@ -151,10 +151,10 @@ endmodule
 // Retrieval info: CONNECT: @address_a 0 0 10 0 address 0 0 10 0
 // Retrieval info: CONNECT: @clock0 0 0 0 0 clock 0 0 0 0
 // Retrieval info: CONNECT: q 0 0 32 0 @q_a 0 0 32 0
-// Retrieval info: GEN_FILE: TYPE_NORMAL weights_3.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL weights_3.inc FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL weights_3.cmp FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL weights_3.bsf FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL weights_3_inst.v FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL weights_3_bb.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL weights_7.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL weights_7.inc FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL weights_7.cmp FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL weights_7.bsf FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL weights_7_inst.v FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL weights_7_bb.v TRUE
 // Retrieval info: LIB_FILE: altera_mf

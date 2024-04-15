@@ -3,12 +3,10 @@
 module evaluate_tb;
 
 logic clk, reset;
-logic [3:0] weight_counter, data_counter;
-logic [3:0] test_data;
-logic [2:0] weights_0, weights_1, weights_2, weights_3, data, error_counter;
-logic [7:0] sum_n0, sum_n1, sum_n2, sum_n3;
+logic [9:0] addr_counter;
+logic [15:0] error_counter;
 
-evaluate uut(clk, reset,  weight_counter, data_counter, test_data, weights_0, weights_1, weights_2, weights_3, data, error_counter, sum_n0, sum_n1, sum_n2, sum_n3);
+evaluate uut(clk, reset,  addr_counter, error_counter);
 
 initial begin // clock cycle of 2ps
     clk = 0;
@@ -24,8 +22,7 @@ initial begin // stimulus is applied here
 end
 
 initial begin // response monitor
-    $monitor ("t = %d clk = %d, reset = %d,  weight_counter = %d, data_counter = %d, test_data = %d, weights_0 = %d, weights_1 = %d, weights_2 = %d, weights_3 = %d, data = %d,  error_counter = %d, sum_n0 = %d, sum_n1 = %d, sum_n2 = %d, sum_n3 = %d",
-					$time, clk, reset,  weight_counter, data_counter, test_data, weights_0, weights_1, weights_2, weights_3, data,  error_counter, sum_n0, sum_n1, sum_n2, sum_n3);
+    $monitor ("t = %d clk = %d, reset = %d,  addr_counter = %d, error_counter = %d", $time, clk, reset, addr_counter, error_counter);
 end
 
 endmodule 

@@ -1,0 +1,37 @@
+EARLY_POWER_ESTIMATOR_FILE_FORMAT_VERSION,6
+QUARTUS_II_VERSION,20.1.1 Build 720 11/11/2020 SJ Lite Edition
+PROJECT,"evaluate"
+REVISION,"evaluate"
+PROJECT_FILE,"C:/Users/wanha/OneDrive/Desktop/MNIST FPGA/.Evaluate/evaluate.qpf"
+TIME,"Mon Mar 25 23:39:14 2024"
+TIME_SECONDS,"1711409954"
+FAMILY,"Cyclone IV E"
+DEVICE,"EP4CE115"
+PACKAGE,"FBGA"
+PART,"EP4CE115F29C7"
+POWER_USE_DEVICE_CHARACTERISTICS,"TYPICAL"
+POWER_AUTO_COMPUTE_TJ,"ON"
+POWER_TJ_VALUE,"25"
+POWER_USE_CUSTOM_COOLING_SOLUTION,"OFF"
+MIN_JUNCTION_TEMPERATURE,"0"
+MAX_JUNCTION_TEMPERATURE,"85"
+POWER_PRESET_COOLING_SOLUTION,"23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+POWER_BOARD_THERMAL_MODEL,"NONE (CONSERVATIVE)"
+POWER_USE_TA_VALUE,"25.00"
+POWER_BOARD_TEMPERATURE,"-1.00"
+POWER_OJC_VALUE,"3.90"
+POWER_OCS_VALUE,"0.10"
+POWER_OSA_VALUE,"2.50"
+POWER_OJB_VALUE,"-1.00"
+VCCIO,,1,2.50,2,2.50,3,2.50,4,2.50,5,2.50,6,2.50,7,2.50,8,2.50,
+RAIL_VOLTAGES,,VCCINT,1.200,VCCA,2.500,VCCD,1.200,
+
+
+BLOCK,M9K,count,44,ram_mode,"ROM",ram_read_during_write,"new",ram_porta_fmax,"0",ram_porta_data_width,"18",ram_porta_addr_width,"9",ram_porta_depth,"512",ram_porta_ena_static_prob,"1.000000",ram_porta_write_ena_static_prob,"0.000000",ram_porta_read_ena_static_prob,"1.000000",avg_ram_porta_output_toggle_ratio,"0.000000",ram_portb_fmax,"0",ram_portb_data_width,"0",ram_portb_addr_width,"0",ram_portb_ena_static_prob,"0.000000",ram_portb_write_ena_static_prob,"0.000000",ram_portb_read_ena_static_prob,"0.000000",avg_ram_portb_output_toggle_ratio,"0.000000"
+BLOCK,M9K,count,36,ram_mode,"ROM",ram_read_during_write,"new",ram_porta_fmax,"0",ram_porta_data_width,"9",ram_porta_addr_width,"10",ram_porta_depth,"1024",ram_porta_ena_static_prob,"1.000000",ram_porta_write_ena_static_prob,"0.000000",ram_porta_read_ena_static_prob,"1.000000",avg_ram_porta_output_toggle_ratio,"0.000000",ram_portb_fmax,"0",ram_portb_data_width,"0",ram_portb_addr_width,"0",ram_portb_ena_static_prob,"0.000000",ram_portb_write_ena_static_prob,"0.000000",ram_portb_read_ena_static_prob,"0.000000",avg_ram_portb_output_toggle_ratio,"0.000000"
+BLOCK,Embedded multiplier output,count,40,avg_toggle_rate,"1.000000",avg_toggle_rate_ratio,"0.000000",avg_fanout,"0.750000",fmax,"0",mac_mode,"Simple Multiplier",num_multipliers,"1",mac_width,"18",input_reg_used,"0",pipe_reg_used,"0",second_adder_reg_used,"0",output_reg_used,"0"
+BLOCK,Combinational cell,count,33745,avg_toggle_rate,"0.999972",avg_toggle_rate_ratio,"0.000000",avg_fanout,"2.510120",fmax,"0"
+BLOCK,Clock control block,count,1,avg_toggle_rate,"0.000000",avg_toggle_rate_ratio,"0.000000",avg_fanout,"459.000000",fmax,"0",global_type,"GCLK",global_clk_ena_static_prob,"1",global_type_usage,"Clock",num_raw_fanout,"459",num_lc_comb_fanout,"0",num_lc_ff_fanout,"359",sum_lc_ff_clkena_static_prob,"181.5",avg_lc_ff_clk_ena_static_prob,"0.505571",num_pin_fanout,"0",num_m512_fanout,"0",num_m9k_fanout,"80",num_m144k_fanout,"0",num_mlab_fanout,"0",num_dsp_fanout,"20",num_dsp9x9_fanout,"40",num_misc_fanout,"0"
+BLOCK,Register cell,count,359,avg_toggle_rate,"1.000000",avg_toggle_rate_ratio,"0.000000",avg_fanout,"95.849582",fmax,"0"
+BLOCK,I/O pad,count,17,avg_toggle_rate,"1.000000",avg_toggle_rate_ratio,"0.000000",avg_fanout,"0.000000",fmax,"0",io_mode,"OUTPUT_PIN",output_load,"0",io_standard,"2_5",drive_strength,"DEFAULT",is_ddr,"0",input_termination,"OFF",output_termination,"SERIES_50_OHMS_WITHOUT_CALIBRATION",output_termination_sp,"0",output_ena_static_prob,"1",vod,"-1",slew_rate,"2"
+BLOCK,I/O pad,count,2,avg_toggle_rate,"0.500000",avg_toggle_rate_ratio,"0.000000",avg_fanout,"1.000000",fmax,"0",io_mode,"INPUT_PIN",output_load,"0",io_standard,"2_5",drive_strength,"DEFAULT",is_ddr,"0",input_termination,"OFF",output_termination,"OFF",output_termination_sp,"0",output_ena_static_prob,"0",vod,"-1",slew_rate,"-1"

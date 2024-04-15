@@ -19,7 +19,7 @@
 #
 # Quartus Prime
 # Version 20.1.1 Build 720 11/11/2020 SJ Lite Edition
-# Date created = 02:52:02  March 15, 2024
+# Date created = 03:45:50  March 15, 2024
 #
 # -------------------------------------------------------------------------- #
 #
@@ -41,7 +41,7 @@ set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE115F29C7
 set_global_assignment -name TOP_LEVEL_ENTITY evaluate
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.1
-set_global_assignment -name PROJECT_CREATION_TIME_DATE "02:52:02  MARCH 15, 2024"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "03:45:50  MARCH 15, 2024"
 set_global_assignment -name LAST_QUARTUS_VERSION "20.1.1 Lite Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
@@ -57,6 +57,34 @@ set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_boundary_scan
 set_global_assignment -name SYSTEMVERILOG_FILE evaluate.sv
 set_global_assignment -name SYSTEMVERILOG_FILE evaluate_tb.sv
+set_global_assignment -name SYSTEMVERILOG_FILE computation_unit.sv
+set_global_assignment -name MIF_FILE input_data.mif
+set_global_assignment -name MIF_FILE label_data.mif
+set_global_assignment -name MIF_FILE weights_0.mif
+set_global_assignment -name MIF_FILE weights_1.mif
+set_global_assignment -name MIF_FILE weights_2.mif
+set_global_assignment -name MIF_FILE weights_3.mif
+set_global_assignment -name MIF_FILE weights_4.mif
+set_global_assignment -name MIF_FILE weights_5.mif
+set_global_assignment -name MIF_FILE weights_6.mif
+set_global_assignment -name MIF_FILE weights_7.mif
+set_global_assignment -name MIF_FILE weights_8.mif
+set_global_assignment -name MIF_FILE weights_9.mif
+set_global_assignment -name QIP_FILE input_data.qip
+set_global_assignment -name QIP_FILE label_data.qip
+set_global_assignment -name QIP_FILE weights_0.qip
+set_global_assignment -name QIP_FILE weights_1.qip
+set_global_assignment -name QIP_FILE weights_2.qip
+set_global_assignment -name QIP_FILE weights_3.qip
+set_global_assignment -name QIP_FILE weights_4.qip
+set_global_assignment -name QIP_FILE weights_5.qip
+set_global_assignment -name QIP_FILE weights_6.qip
+set_global_assignment -name QIP_FILE weights_7.qip
+set_global_assignment -name QIP_FILE weights_8.qip
+set_global_assignment -name QIP_FILE weights_9.qip
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
@@ -65,20 +93,29 @@ set_global_assignment -name EDA_TEST_BENCH_NAME evaluate_tb -section_id eda_simu
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id evaluate_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME evaluate_tb -section_id evaluate_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE evaluate_tb.sv -section_id evaluate_tb
-set_global_assignment -name SYSTEMVERILOG_FILE computation_unit.sv
-set_global_assignment -name MIF_FILE input_data.mif
-set_global_assignment -name MIF_FILE label_input.mif
-set_global_assignment -name MIF_FILE weights_0.mif
-set_global_assignment -name MIF_FILE weights_1.mif
-set_global_assignment -name MIF_FILE weights_2.mif
-set_global_assignment -name MIF_FILE weights_3.mif
-set_global_assignment -name QIP_FILE input_data.qip
-set_global_assignment -name QIP_FILE label_input.qip
-set_global_assignment -name QIP_FILE weights_0.qip
-set_global_assignment -name QIP_FILE weights_1.qip
-set_global_assignment -name QIP_FILE weights_2.qip
-set_global_assignment -name QIP_FILE weights_3.qip
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_location_assignment PIN_M23 -to reset
+set_location_assignment PIN_F17 -to stop_nn
+set_location_assignment PIN_G19 -to error_counter[0]
+set_location_assignment PIN_F19 -to error_counter[1]
+set_location_assignment PIN_E19 -to error_counter[2]
+set_location_assignment PIN_F21 -to error_counter[3]
+set_location_assignment PIN_F18 -to error_counter[4]
+set_location_assignment PIN_E18 -to error_counter[5]
+set_location_assignment PIN_J19 -to error_counter[6]
+set_location_assignment PIN_H19 -to error_counter[7]
+set_location_assignment PIN_J17 -to error_counter[8]
+set_location_assignment PIN_G17 -to error_counter[9]
+set_location_assignment PIN_J15 -to error_counter[10]
+set_location_assignment PIN_H16 -to error_counter[11]
+set_location_assignment PIN_J16 -to error_counter[12]
+set_location_assignment PIN_H17 -to error_counter[13]
+set_location_assignment PIN_F15 -to error_counter[14]
+set_location_assignment PIN_G15 -to error_counter[15]
+set_location_assignment PIN_Y2 -to clk
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name POWER_USE_INPUT_FILES ON
+set_global_assignment -name EDA_MAP_ILLEGAL_CHARACTERS ON -section_id eda_simulation
+set_global_assignment -name EDA_ENABLE_GLITCH_FILTERING OFF -section_id eda_simulation
+set_global_assignment -name EDA_WRITE_NODES_FOR_POWER_ESTIMATION ALL_NODES -section_id eda_simulation
+set_global_assignment -name EDA_TEST_BENCH_DESIGN_INSTANCE_NAME DUT -section_id eda_simulation
+set_global_assignment -name EDA_GENERATE_RTL_SIMULATION_COMMAND_SCRIPT ON -section_id eda_simulation
