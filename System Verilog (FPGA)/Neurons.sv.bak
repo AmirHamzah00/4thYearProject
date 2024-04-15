@@ -1,0 +1,363 @@
+//-------------------------------------------------------------------
+
+// THIS PART DEFINES THE FORWARD PROPAGATION ALGORITHM OF THE NEURONS
+
+//-------------------------------------------------------------------
+
+// main formula: neuron output = sum(weight x input) + bias
+
+module ReLUNeuronFP (input logic clk, reset,
+					      input logic [31:0] neuron_input1, neuron_input2, 
+                     input logic [31:0] weights1, weights2,
+					      input logic [31:0] bias,
+				        output logic [31:0] neuron_output);
+
+logic [31:0] multFPU_outputs1, multFPU_outputs2; // used as tmp to store multFPU values
+logic [31:0] addFPU_output; // used as tmp to store addFPU values
+logic [31:0] activation_input, activation_output; // used as tmp for i/o of the activation module
+
+// The multFPU is used to compute the multiplcation of the weights and the inputs
+
+multFPU m0(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (neuron_input1),      
+			.b      (weights1),     
+			.q      (multFPU_outputs1)      
+			 );
+			 
+multFPU m1(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (neuron_input2),      
+			.b      (weights2),      
+			.q      (multFPU_outputs2)      
+			 );
+			
+// The addFPU is used to add the output from the multFPU with the bias
+
+addFPU a0(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (multFPU_outputs1),      
+			.b      (multFPU_outputs2),     
+			.q      (addFPU_output)      
+			 );
+			 
+addFPU a1(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (addFPU_output),      
+			.b      (bias),      
+			.q      (activation_input)       
+			 );
+
+// The addition result is passed to the ReLU module which act as the activation function
+			 
+ReLU r0(activation_input, activation_output);
+
+assign neuron_output = activation_output;	// neuron returns the output after the activation function 
+			 
+endmodule
+
+module SigmoidNeuronFP (input logic clk, reset,
+					         input logic [31:0] neuron_input1, neuron_input2, neuron_input3,
+                        input logic [31:0] weights1, weights2, weights3,
+					         input logic [31:0] bias,
+				           output logic [31:0] neuron_output);
+
+logic [31:0] multFPU_outputs1, multFPU_outputs2, multFPU_outputs3; // used as tmp to store multFPU values
+logic [31:0] addFPU_outputs1, addFPU_outputs2; // used as tmp to store addFPU values
+logic [31:0] activation_input, activation_output; // used as tmp for i/o of the activation module
+
+// The multFPU is used to compute the multiplcation of the weights and the inputs
+
+multFPU m0(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (neuron_input1),      
+			.b      (weights1),     
+			.q      (multFPU_outputs1)      
+			 );
+			 
+multFPU m1(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (neuron_input2),      
+			.b      (weights2),      
+			.q      (multFPU_outputs2)      
+			 );
+			 
+multFPU m2(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (neuron_input3),      
+			.b      (weights3),      
+			.q      (multFPU_outputs3)      
+			 );
+
+// The addFPU is used to add the output from the multFPU with the bias
+			 
+addFPU a0(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (multFPU_outputs1),      
+			.b      (multFPU_outputs2),     
+			.q      (addFPU_outputs1)      
+			 );
+			 
+addFPU a1(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (multFPU_outputs3),      
+			.b      (bias),      
+			.q      (addFPU_outputs2)       
+			 );
+
+addFPU a2(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (addFPU_outputs1),      
+			.b      (addFPU_outputs2),      
+			.q      (activation_input)       
+			 );
+
+// The addition result is passed to the SigmoidLUTs module which act as the activation function
+			 
+SigmoidLUTs s0(clk, reset, activation_input, activation_output);
+
+assign neuron_output = activation_output;	// neuron returns the output after the activation function 
+			 
+endmodule 
+
+
+//---------------------------------------------------------------
+
+// THIS PART DEFINES THE BACKPROPAGATION ALGORITHM OF THE NEURONS
+
+//---------------------------------------------------------------
+
+// main formula: delta = loss x activation derivative function of neuron output
+
+module SigmoidNeuronBP (input logic clk, reset,
+						      input logic [31:0] neuron_output,
+						      input logic [31:0] expected,
+					        output logic [31:0] delta);
+					  
+logic [31:0] one; // used to store the value '1' for the Sigmoid derivative computation
+logic [31:0] dSigmoid_input, dSigmoid_output; // used as tmp for sigmoid derivative calculation
+
+assign one = 32'h3f800000; // assigns the value '1' in the 'one' var
+
+// The purpose of this Module is to compute th chain derivative value 'Delta' which will be used for parameter optimisation
+
+// This part computes the following formula [ Sigmoid Derivative = output(1 - output) ]
+
+subFPU s0(
+			.clk(clk),    
+			.areset(reset), 
+			.a(neuron_output),      
+			.b(expected),      
+			.q(delta)   			
+			);
+					  
+endmodule 
+
+
+module ReLUNeuronBP (input logic clk, reset,
+				         input logic [31:0] neuron_output,
+			    	      input logic [31:0] weight1, weight2,
+					      input logic [31:0] dSigmoid1, dSigmoid2,
+				        output logic [31:0] delta);
+				  
+logic [31:0] loss1, loss2, dresult; // used as tmp to calculate the loss value for the ReLU neurons
+
+// This part is used to compute the weighted loss [ReLU loss = Sum of (Sigmoid Delta x ReLU Weights)]
+
+multFPU m0(
+			.clk(clk),    
+			.areset(reset), 
+			.a(dSigmoid1),      
+			.b(weight1),      
+			.q(loss1)   			
+			);	
+			
+multFPU m1(
+			.clk(clk),    
+			.areset(reset), 
+			.a(dSigmoid2),      
+			.b(weight2),      
+			.q(loss2)   			
+			);	
+
+addFPU a0(
+			.clk(clk),    
+			.areset(reset), 
+			.a(loss1),      
+			.b(loss2),      
+			.q(dresult)   			
+			);
+			
+// The derivative of the ReLU function is 1 for positive value and 0 for negative value, hence delta will be result of weighted loss if positive, zero if negative
+			
+assign delta = (neuron_output[31] == 0) ? dresult : 32'h00000000; // checks the 32nd bit to determine the sign of the neuron output
+
+endmodule 
+
+
+//----------------------------------------------------------------------
+
+// THIS PART DEFINES THE PARAMETER OPTIMISATION ALGORITHM OF THE NEURONS
+
+//----------------------------------------------------------------------
+
+// main formulae:
+// new weight = old weight - learning_rate x delta x input
+// new bias = old bias - learning rate x delta
+
+module SigmoidNeuronOP (input logic clk, reset,
+								input logic [31:0] SigmoidNeuron_input1, SigmoidNeuron_input2, SigmoidNeuron_input3,
+								input logic [31:0] SigmoidNeuron_weight1, SigmoidNeuron_weight2, SigmoidNeuron_weight3,
+								input logic [31:0] Sigmoid_bias,
+								input logic [31:0] delta,
+								input logic [31:0] learning_rate,
+							  output logic [31:0] new_Sigmoid_weight1, new_Sigmoid_weight2, new_Sigmoid_weight3, new_Sigmoid_bias);
+
+logic [31:0] delta_lr; // store the delta-learning_rate product value
+logic [31:0] update_Sigmoid_weight1, update_Sigmoid_weight2, update_Sigmoid_weight3; // store the product of delta_lr with the input
+
+// computes the delta_lr value
+multFPU m0(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (delta),      
+			.b      (learning_rate),     
+			.q      (delta_lr)      
+			 );
+			 
+// these units compute the delta_lr x input values 
+multFPU m1(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (SigmoidNeuron_input1),      
+			.b      (delta_lr),      
+			.q      (update_Sigmoid_weight1)      
+			 );
+			 
+multFPU m2(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (SigmoidNeuron_input2),      
+			.b      (delta_lr),      
+			.q      (update_Sigmoid_weight2)      
+			 );
+			 
+multFPU m3(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (SigmoidNeuron_input3),      
+			.b      (delta_lr),      
+			.q      (update_Sigmoid_weight3)      
+			 );
+			 
+// this computes the new bias value	 
+subFPU s0(
+			.clk(clk),    
+			.areset(reset), 
+			.a(Sigmoid_bias),      
+			.b(delta_lr),      
+			.q(new_Sigmoid_bias)   			
+			);
+			
+// these units computes the new weight values	 
+subFPU s1(
+			.clk(clk),    
+			.areset(reset), 
+			.a(SigmoidNeuron_weight1),      
+			.b(update_Sigmoid_weight1),      
+			.q(new_Sigmoid_weight1)   			
+			);
+			
+subFPU s2(
+			.clk(clk),    
+			.areset(reset), 
+			.a(SigmoidNeuron_weight2),      
+			.b(update_Sigmoid_weight2),      
+			.q(new_Sigmoid_weight2)   			
+			);
+			
+subFPU s3(
+			.clk(clk),    
+			.areset(reset), 
+			.a(SigmoidNeuron_weight3),      
+			.b(update_Sigmoid_weight3),      
+			.q(new_Sigmoid_weight3)   			
+			);
+
+endmodule
+
+
+module ReLUNeuronOP (input logic clk, reset,
+							input logic [31:0] ReLUNeuron_input1, ReLUNeuron_input2,
+							input logic [31:0] ReLUNeuron_weight1, ReLUNeuron_weight2, 
+							input logic [31:0] ReLU_bias,
+							input logic [31:0] delta,
+							input logic [31:0] learning_rate,
+						  output logic [31:0] new_ReLU_weight1, new_ReLU_weight2, new_ReLU_bias);
+	
+logic [31:0] delta_lr; // store the delta-learning_rate product value
+logic [31:0] update_ReLU_weight1, update_ReLU_weight2; // store the product of delta_lr with the input
+
+// computes the delta_lr value
+multFPU m0(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (delta),      
+			.b      (learning_rate),     
+			.q      (delta_lr)      
+			 );
+
+// these units compute the delta_lr x input values 		 
+multFPU m1(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (ReLUNeuron_input1),      
+			.b      (delta_lr),      
+			.q      (update_ReLU_weight1)      
+			 );
+			 
+multFPU m2(
+			.clk    (clk),    
+			.areset (reset), 
+			.a      (ReLUNeuron_input2),      
+			.b      (delta_lr),      
+			.q      (update_ReLU_weight2)      
+			 );
+			 
+// this computes the new bias value				 
+subFPU s0(
+			.clk(clk),    
+			.areset(reset), 
+			.a(ReLU_bias),      
+			.b(delta_lr),      
+			.q(new_ReLU_bias)   			
+			);
+ 
+ // these units computes the new weight values
+subFPU s1(
+			.clk(clk),    
+			.areset(reset), 
+			.a(ReLUNeuron_weight1),      
+			.b(update_ReLU_weight1),      
+			.q(new_ReLU_weight1)   			
+			);
+			
+subFPU s2(
+			.clk(clk),    
+			.areset(reset), 
+			.a(ReLUNeuron_weight2),      
+			.b(update_ReLU_weight2),      
+			.q(new_ReLU_weight2)   			
+			);
+
+endmodule 

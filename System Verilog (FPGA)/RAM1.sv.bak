@@ -1,0 +1,15 @@
+module RAM1 (input logic clk, read_en, write_en,
+					   input logic [31:0] data_in,
+					  output logic [31:0] data_out);
+
+	
+ram r0(
+	    .address(1'b0),
+	    .clock(clk),
+	    .data(data),
+	    .rden(read_en),
+	    .wren(write_en),
+	    .q(data_out)
+		);
+		
+endmodule 

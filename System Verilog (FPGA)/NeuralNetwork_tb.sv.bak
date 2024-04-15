@@ -1,0 +1,54 @@
+`timescale 1ps/1ps
+
+module NeuralNetwork_tb;
+
+logic clk, reset;
+logic x_input, y_input;
+logic [31:0] neuron_r0_output, neuron_r1_output, neuron_r2_output, neuron_s0_output, neuron_s1_output;
+logic [31:0] Sigmoid_delta0, Sigmoid_delta1, ReLU_delta0, ReLU_delta1, ReLU_delta2;
+logic [31:0] new_weights_s0_1, new_weights_s0_2, new_weights_s0_3, new_bias_s0;
+logic [31:0] new_weights_s1_1, new_weights_s1_2, new_weights_s1_3, new_bias_s1;
+logic [31:0] new_weights_r0_1, new_weights_r0_2, new_bias_r0;
+logic [31:0] new_weights_r1_1, new_weights_r1_2, new_bias_r1;
+logic [31:0] new_weights_r2_1, new_weights_r2_2, new_bias_r2;
+
+NeuralNetwork uut(clk, reset, x_input, y_input, neuron_r0_output, neuron_r1_output, neuron_r2_output, neuron_s0_output, neuron_s1_output, 
+                  Sigmoid_delta0, Sigmoid_delta1, ReLU_delta0, ReLU_delta1, ReLU_delta2, 
+                  new_weights_s0_1, new_weights_s0_2, new_weights_s0_3, new_bias_s0, 
+						new_weights_s1_1, new_weights_s1_2, new_weights_s1_3, new_bias_s1,
+						new_weights_r0_1, new_weights_r0_2, new_bias_r0,
+						new_weights_r1_1, new_weights_r1_2, new_bias_r1,
+						new_weights_r2_1, new_weights_r2_2, new_bias_r2);
+
+initial begin // clock cycle of 2ps
+    clk = 0;
+    forever #1 clk = ~clk;
+end
+
+initial begin // stimulus is applied here
+    reset = 1; #2; 
+    reset = 0; #2; 
+    x_input = 1; 
+	 y_input = 1;
+	 #400;	 
+    $stop;
+end
+
+initial begin // response monitor
+    $monitor ("t = %d clk = %b, reset = %b, neuron_r0_output = %h, neuron_r1_output = %h, neuron_r2_output = %h, neuron_s0_output = %h, neuron_s1_output = %h, \
+	            Sigmoid_delta0 = %h, Sigmoid_delta1 = %h, ReLU_delta0 = %h, ReLU_delta1 = %h, ReLU_delta2 = %h \
+					new_weights_s0_1 = %h, new_weights_s0_2 = %h, new_weights_s0_3 = %h, new_bias_s0 = %h, \
+					new_weights_s1_1 = %h, new_weights_s1_2 = %h, new_weights_s1_3 = %h, new_bias_s1 = %h, \
+				   new_weights_r0_1 = %h, new_weights_r0_2 = %h, new_bias_r0 = %h, \
+					new_weights_r1_1 = %h, new_weights_r1_2 = %h, new_bias_r1 = %h, \
+					new_weights_r2_1 = %h, new_weights_r2_2 = %h, new_bias_r2 = %h, ", 
+	           $time, clk, reset, neuron_r0_output, neuron_r1_output, neuron_r2_output, neuron_s0_output, neuron_s1_output, 
+				  Sigmoid_delta0, Sigmoid_delta1, ReLU_delta0, ReLU_delta1, ReLU_delta2, 
+				  new_weights_s0_1, new_weights_s0_2, new_weights_s0_3, new_bias_s0, 
+				  new_weights_s1_1, new_weights_s1_2, new_weights_s1_3, new_bias_s1,
+				  new_weights_r0_1, new_weights_r0_2, new_bias_r0,
+				  new_weights_r1_1, new_weights_r1_2, new_bias_r1,
+				  new_weights_r2_1, new_weights_r2_2, new_bias_r2);
+end
+
+endmodule
